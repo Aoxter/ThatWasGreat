@@ -2,43 +2,41 @@ package com.github.aoxter.ThatWasGreat.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name="tbl_category")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-abstract public class Category {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private Long id;
-    //TODO for category or entry?
-    @Column(nullable = false)
+    @Column(unique=true, nullable = false)
     private String name;
     private String description;
-    private byte overallRate;
-    //TODO image for entries
-    //TODO static icon for category
+    @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
+    private RatingForm ratingForm;
+    @ElementCollection
+    @CollectionTable(name="tbl_category_factors", joinColumns=@JoinColumn(name="category_id"))
+    @Column(name = "factor")
+    private List<String> factors;
+    //TODO icon for category
 
-    //TODO connection between categories and entries
 
-    public Category(String name) {
-        this.name = name;
+    public Category() {
     }
 
-    public Category(String name, String description) {
+    public Category(String name, RatingForm ratingForm) {
         this.name = name;
-        this.description = description;
+        this.ratingForm = ratingForm;
     }
 
-    public Category(String name, byte overallRate) {
+    public Category(String name, String description, RatingForm ratingForm, List<String> factors) {
         this.name = name;
         this.description = description;
-        this.overallRate = overallRate;
-    }
-
-    public Category(String name, String description, byte overallRate) {
-        this.name = name;
-        this.description = description;
-        this.overallRate = overallRate;
+        this.ratingForm = ratingForm;
+        this.factors = factors;
     }
 
     public String getName() {
@@ -57,11 +55,38 @@ abstract public class Category {
         this.description = description;
     }
 
-    public byte getOverallRate() {
-        return overallRate;
+    public RatingForm getRatingForm() {
+        return ratingForm;
     }
 
-    public void setOverallRate(byte overallRate) {
-        this.overallRate = overallRate;
+    public void setRatingForm(RatingForm ratingForm) {
+        this.ratingForm = ratingForm;
+    }
+
+    public List<String> getFactors() {
+        return factors;
+    }
+
+    public void setFactors(List<String> factors) {
+        this.factors = factors;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(getName());
+        stringBuilder.append(" (Category):\n");
+        stringBuilder.append(getDescription());
+        stringBuilder.append("\n");
+        stringBuilder.append("Rating form: ");
+        stringBuilder.append(ratingForm);
+        stringBuilder.append("\nRated aspects:");
+        String prefix = " ";
+        for (String factor: factors){
+            stringBuilder.append(prefix);
+            stringBuilder.append(factor);
+            prefix = ", ";
+        }
+        return super.toString();
     }
 }
