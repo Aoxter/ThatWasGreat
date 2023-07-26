@@ -7,8 +7,9 @@ import java.util.List;
 @Entity
 @Table(name="tbl_category")
 public class Category {
+    //TODO Configure generator for sequence generator incremented by 1
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(updatable = false, nullable = false)
     private Long id;
     @Column(unique=true, nullable = false)
