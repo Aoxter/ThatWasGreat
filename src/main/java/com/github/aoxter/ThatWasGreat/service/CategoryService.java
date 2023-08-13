@@ -36,7 +36,7 @@ public class CategoryService {
             categoryUpdated.setFactors(newCategoryData.getFactors());
             return Optional.of(categoryRepository.save(categoryUpdated));
         } else {
-            return null;
+            return Optional.empty();
         }
     }
 

@@ -1,7 +1,7 @@
 package com.github.aoxter.ThatWasGreat.controller;
 
-import com.github.aoxter.ThatWasGreat.model.Category;
-import com.github.aoxter.ThatWasGreat.service.CategoryService;
+import com.github.aoxter.ThatWasGreat.model.Entry;
+import com.github.aoxter.ThatWasGreat.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,19 +11,25 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/category")
-public class CategoryController {
+@RequestMapping("/entry")
+public class EntryController {
     @Autowired
-    CategoryService categoryService;
+    EntryService entryService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<Category>> getAllCategories() {
+    public ResponseEntity<List<Entry>> getAllEntries(@RequestParam Optional<Long> categoryId) {
         try {
-            List<Category> categories = categoryService.getAll();
-            if (categories.isEmpty()) {
+            List<Entry> entries;
+            if(categoryId.isPresent()){
+                entries = entryService.getAll(categoryId.get());
+            }
+            else{
+                entries = entryService.getAll();
+            }
+            if (entries.isEmpty()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            return new ResponseEntity<>(categories, HttpStatus.OK);
+            return new ResponseEntity<>(entries, HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -31,11 +37,11 @@ public class CategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Category> getCategoryById(@PathVariable("id") long id) {
+    public ResponseEntity<Entry> getEntryById(@PathVariable("id") long id) {
         try {
-            Optional<Category> category = categoryService.getById(id);
-            if (category.isPresent()) {
-                return new ResponseEntity<>(category.get(), HttpStatus.OK);
+            Optional<Entry> entry = entryService.getById(id);
+            if (entry.isPresent()) {
+                return new ResponseEntity<>(entry.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -47,10 +53,10 @@ public class CategoryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Entry> createEntry(@RequestParam long categoryId, @RequestBody Entry entry) {
         try {
-            Category _category = categoryService.add(category);
-            return new ResponseEntity<>(_category, HttpStatus.CREATED);
+            Entry _entry = entryService.add(categoryId, entry);
+            return new ResponseEntity<>(_entry, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -58,11 +64,11 @@ public class CategoryController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
+    public ResponseEntity<Entry> updateEntry(@PathVariable("id") long id, @RequestBody Entry entry) {
         try {
-            Optional<Category> categoryUpdated = categoryService.update(id, category);
-            if (categoryUpdated.isPresent()) {
-                return new ResponseEntity<>(categoryUpdated.get(), HttpStatus.OK);
+            Optional<Entry> entryUpdated = entryService.update(id, entry);
+            if (entryUpdated.isPresent()) {
+                return new ResponseEntity<>(entryUpdated.get(), HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
@@ -74,13 +80,13 @@ public class CategoryController {
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteCategory(@PathVariable("id") long id) {
+    public ResponseEntity<HttpStatus> deleteEntry(@PathVariable("id") long id) {
         try {
-            Optional<Category> category = categoryService.getById(id);
-            if (!category.isPresent()) {
+            Optional<Entry> entry = entryService.getById(id);
+            if (!entry.isPresent()) {
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
-            categoryService.delete(id);
+            entryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();

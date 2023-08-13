@@ -14,7 +14,7 @@ public class Entry {
     private String name;
     @Column(nullable = false)
     private String description;
-    @ManyToOne(cascade=CascadeType.ALL, optional = false)
+    @ManyToOne(optional = false)
     private Category category;
     private byte overallRate;
     @ElementCollection
@@ -27,8 +27,9 @@ public class Entry {
     public Entry() {
     }
 
-    public Entry(String name, Category category) {
+    public Entry(Category category, String name, String description) {
         this.name = name;
+        this.description = description;
         this.category = category;
     }
 
