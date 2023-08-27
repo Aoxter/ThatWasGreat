@@ -6,7 +6,9 @@ import com.github.aoxter.ThatWasGreat.repository.EntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -37,7 +39,15 @@ public class EntryService {
         if(category.isEmpty()){
             throw new Exception("Can not add new entry to given category because category of given ID doesn't exists.");
         }
-        return entryRepository.save(new Entry(category.get(), entry.getName(), entry.getDescription()));
+        return entryRepository.save(new Entry(category.get(), entry.getName(), entry.getDescription(), (byte)0, getRatesMapByCategory(category.get())));
+    }
+
+    private Map<String, Byte> getRatesMapByCategory(Category category) {
+        Map<String, Byte> rates = new HashMap<>();
+        for(String factor : category.getFactors()) {
+            rates.put(factor, (byte)0);
+        }
+        return rates;
     }
 
     public Optional<Entry> update(Long id, Entry newEntryData) {

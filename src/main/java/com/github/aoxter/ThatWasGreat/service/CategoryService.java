@@ -33,7 +33,8 @@ public class CategoryService {
             categoryUpdated.setName(newCategoryData.getName());
             categoryUpdated.setDescription(newCategoryData.getDescription());
             categoryUpdated.setRatingForm(newCategoryData.getRatingForm());
-            categoryUpdated.setFactors(newCategoryData.getFactors());
+            //Blocked because of potential problems with Entries synchronization
+            //categoryUpdated.setFactors(newCategoryData.getFactors());
             return Optional.of(categoryRepository.save(categoryUpdated));
         } else {
             return Optional.empty();

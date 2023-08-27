@@ -1,5 +1,7 @@
 package com.github.aoxter.ThatWasGreat.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.aoxter.ThatWasGreat.serializer.EntryListSerializer;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -22,8 +24,10 @@ public class Category {
     @CollectionTable(name="tbl_category_factors", joinColumns=@JoinColumn(name="category_id"))
     @Column(name = "factor")
     private List<String> factors;
+    @OneToMany(mappedBy="category", cascade=CascadeType.ALL, orphanRemoval=true)
+    @JsonSerialize(using = EntryListSerializer.class)
+    private List<Entry> entries;
     //TODO icon for category
-
 
     public Category() {
     }
@@ -38,6 +42,10 @@ public class Category {
         this.description = description;
         this.ratingForm = ratingForm;
         this.factors = factors;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -70,6 +78,14 @@ public class Category {
 
     public void setFactors(List<String> factors) {
         this.factors = factors;
+    }
+
+    public List<Entry> getEntries() {
+        return entries;
+    }
+
+    public void setEntries(List<Entry> entries) {
+        this.entries = entries;
     }
 
     @Override

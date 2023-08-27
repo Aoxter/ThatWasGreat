@@ -1,5 +1,8 @@
 package com.github.aoxter.ThatWasGreat.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.github.aoxter.ThatWasGreat.serializer.CategorySerializer;
+import com.github.aoxter.ThatWasGreat.serializer.EntryListSerializer;
 import jakarta.persistence.*;
 
 import java.util.Map;
@@ -14,7 +17,8 @@ public class Entry {
     private String name;
     @Column(nullable = false)
     private String description;
-    @ManyToOne(optional = false)
+    @ManyToOne(fetch=FetchType.LAZY, optional=false)
+    @JsonSerialize(using = CategorySerializer.class)
     private Category category;
     private byte overallRate;
     @ElementCollection
@@ -23,6 +27,8 @@ public class Entry {
     @Column(name = "rating")
     private Map<String, Byte> rates;
     //TODO image for entries
+    //TODO Groups: inside one category and between multi categories
+    //TODO custom factors in plus and in minus which could influence overall rate if calculated automatically (example: very strong +++, strong +, weak -, very weak ---)
 
     public Entry() {
     }
@@ -33,12 +39,16 @@ public class Entry {
         this.category = category;
     }
 
-    public Entry(String name, String description, Category category, byte overallRate, Map<String, Byte> rates) {
+    public Entry(Category category, String name, String description, byte overallRate, Map<String, Byte> rates) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.overallRate = overallRate;
         this.rates = rates;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
