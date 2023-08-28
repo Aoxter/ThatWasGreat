@@ -1,11 +1,14 @@
 package com.github.aoxter.ThatWasGreat.controller;
 
+import com.github.aoxter.ThatWasGreat.exceptions.CategoryNotFoundException;
+import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
 import com.github.aoxter.ThatWasGreat.model.Entry;
 import com.github.aoxter.ThatWasGreat.service.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -57,8 +60,15 @@ public class EntryController {
         try {
             Entry _entry = entryService.add(categoryId, entry);
             return new ResponseEntity<>(_entry, HttpStatus.CREATED);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (EntryAlreadyExistsException entryServiceException) {
+            throw new EntryAlreadyExistsException(entryServiceException.getMessage());
+        }
+        catch (CategoryNotFoundException categoryNotFoundException) {
+            throw new CategoryNotFoundException(categoryNotFoundException.getMessage());
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

@@ -1,5 +1,7 @@
 package com.github.aoxter.ThatWasGreat.service;
 
+import com.github.aoxter.ThatWasGreat.exceptions.CategoryNotFoundException;
+import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
 import com.github.aoxter.ThatWasGreat.model.Category;
 import com.github.aoxter.ThatWasGreat.model.Entry;
 import com.github.aoxter.ThatWasGreat.repository.EntryRepository;
@@ -31,13 +33,13 @@ public class EntryService {
         return entryRepository.findById(id);
     }
 
-    public Entry add(long categoryId, Entry entry) throws Exception {
+    public Entry add(long categoryId, Entry entry) throws EntryAlreadyExistsException, CategoryNotFoundException {
         if(getAll(categoryId).stream().map(Entry::getName).collect(Collectors.toList()).contains(entry.getName())){
-            throw new Exception("Entry with that name already exists in given category.");
+            throw new EntryAlreadyExistsException("Entry with that name already exists in the given category.");
         }
         Optional<Category> category = categoryService.getById(categoryId);
         if(category.isEmpty()){
-            throw new Exception("Can not add new entry to given category because category of given ID doesn't exists.");
+            throw new CategoryNotFoundException("Can not add new entry because category of the given ID doesn't exists.");
         }
         return entryRepository.save(new Entry(category.get(), entry.getName(), entry.getDescription(), (byte)0, getRatesMapByCategory(category.get())));
     }

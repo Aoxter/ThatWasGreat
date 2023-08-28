@@ -1,5 +1,7 @@
 package com.github.aoxter.ThatWasGreat.controller;
 
+import com.github.aoxter.ThatWasGreat.exceptions.CategoryCanNotBeRemoved;
+import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
 import com.github.aoxter.ThatWasGreat.model.Category;
 import com.github.aoxter.ThatWasGreat.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,8 +84,12 @@ public class CategoryController {
             }
             categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        } catch (Exception e) {
-            e.printStackTrace();
+        }
+        catch (CategoryCanNotBeRemoved categoryCanNotBeRemoved) {
+            throw new CategoryCanNotBeRemoved(categoryCanNotBeRemoved.getMessage());
+        }
+        catch (Exception exception) {
+            exception.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
