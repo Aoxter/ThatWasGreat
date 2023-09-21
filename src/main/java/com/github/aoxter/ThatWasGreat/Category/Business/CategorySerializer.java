@@ -1,13 +1,11 @@
-package com.github.aoxter.ThatWasGreat.serializer;
+package com.github.aoxter.ThatWasGreat.Category.Business;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.github.aoxter.ThatWasGreat.model.Category;
+import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class CategorySerializer extends StdSerializer<Category> {
     public CategorySerializer() {

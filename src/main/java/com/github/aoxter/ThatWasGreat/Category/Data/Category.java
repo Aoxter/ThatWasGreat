@@ -1,7 +1,8 @@
-package com.github.aoxter.ThatWasGreat.model;
+package com.github.aoxter.ThatWasGreat.Category.Data;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.github.aoxter.ThatWasGreat.serializer.EntryListSerializer;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
+import com.github.aoxter.ThatWasGreat.Entry.Business.EntryListSerializer;
 import jakarta.persistence.*;
 
 import java.util.List;

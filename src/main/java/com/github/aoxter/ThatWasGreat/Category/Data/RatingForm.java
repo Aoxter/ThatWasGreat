@@ -1,4 +1,4 @@
-package com.github.aoxter.ThatWasGreat.model;
+package com.github.aoxter.ThatWasGreat.Category.Data;
 
 public enum RatingForm {
     TIER("Tier list"),

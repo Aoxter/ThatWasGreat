@@ -1,9 +1,8 @@
-package com.github.aoxter.ThatWasGreat.controller;
+package com.github.aoxter.ThatWasGreat.Category.Web;
 
-import com.github.aoxter.ThatWasGreat.exceptions.CategoryCanNotBeRemoved;
-import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.model.Category;
-import com.github.aoxter.ThatWasGreat.service.CategoryService;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemoved;
+import com.github.aoxter.ThatWasGreat.Category.Data.Category;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

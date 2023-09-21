@@ -1,9 +1,9 @@
-package com.github.aoxter.ThatWasGreat.serializer;
+package com.github.aoxter.ThatWasGreat.Entry.Business;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import com.github.aoxter.ThatWasGreat.model.Entry;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 
 import java.io.IOException;
 import java.util.ArrayList;

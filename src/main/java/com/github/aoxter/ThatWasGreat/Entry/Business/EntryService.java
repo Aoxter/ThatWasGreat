@@ -1,10 +1,10 @@
-package com.github.aoxter.ThatWasGreat.service;
+package com.github.aoxter.ThatWasGreat.Entry.Business;
 
-import com.github.aoxter.ThatWasGreat.exceptions.CategoryNotFoundException;
-import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.model.Category;
-import com.github.aoxter.ThatWasGreat.model.Entry;
-import com.github.aoxter.ThatWasGreat.repository.EntryRepository;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
+import com.github.aoxter.ThatWasGreat.Category.Data.Category;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
+import com.github.aoxter.ThatWasGreat.Entry.Data.EntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

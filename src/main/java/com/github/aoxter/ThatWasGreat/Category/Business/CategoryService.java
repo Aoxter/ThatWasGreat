@@ -1,8 +1,7 @@
-package com.github.aoxter.ThatWasGreat.service;
+package com.github.aoxter.ThatWasGreat.Category.Business;
 
-import com.github.aoxter.ThatWasGreat.exceptions.CategoryCanNotBeRemoved;
-import com.github.aoxter.ThatWasGreat.model.Category;
-import com.github.aoxter.ThatWasGreat.repository.CategoryRepository;
+import com.github.aoxter.ThatWasGreat.Category.Data.Category;
+import com.github.aoxter.ThatWasGreat.Category.Data.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +19,10 @@ public class CategoryService {
 
     public Optional<Category> getById(Long id) {
         return categoryRepository.findById(id);
+    }
+
+    public Optional<Category> getByName(String name) {
+        return Optional.ofNullable(categoryRepository.findByName(name));
     }
 
     public Category add(Category category) {
