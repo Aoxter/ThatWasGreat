@@ -1,14 +1,13 @@
-package com.github.aoxter.ThatWasGreat.controller;
+package com.github.aoxter.ThatWasGreat.Entry.Web;
 
-import com.github.aoxter.ThatWasGreat.exceptions.CategoryNotFoundException;
-import com.github.aoxter.ThatWasGreat.exceptions.EntryAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.model.Entry;
-import com.github.aoxter.ThatWasGreat.service.EntryService;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
+import com.github.aoxter.ThatWasGreat.Entry.Business.EntryAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
+import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
