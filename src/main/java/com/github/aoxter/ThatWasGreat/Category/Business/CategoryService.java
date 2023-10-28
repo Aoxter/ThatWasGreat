@@ -45,8 +45,8 @@ public class CategoryService {
         }
     }
 
-    public void delete(Long id) throws CategoryCanNotBeRemoved {
-        if(id == 1 || id == 2 | id == 3 | id == 4) throw new CategoryCanNotBeRemoved("Default categories can not be removed");
+    public void delete(Long id) throws CategoryCanNotBeRemovedException {
+        if(id == 1 || id == 2 | id == 3 | id == 4) throw new CategoryCanNotBeRemovedException("Default categories can not be removed");
         categoryRepository.deleteById(id);
     }
 }

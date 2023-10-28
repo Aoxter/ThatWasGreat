@@ -1,6 +1,6 @@
 package com.github.aoxter.ThatWasGreat.Category.Web;
 
-import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemoved;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemovedException;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
 import jakarta.validation.Valid;
@@ -85,8 +85,8 @@ public class CategoryController {
             categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        catch (CategoryCanNotBeRemoved categoryCanNotBeRemoved) {
-            throw new CategoryCanNotBeRemoved(categoryCanNotBeRemoved.getMessage());
+        catch (CategoryCanNotBeRemovedException categoryCanNotBeRemovedException) {
+            throw new CategoryCanNotBeRemovedException(categoryCanNotBeRemovedException.getMessage());
         }
         catch (Exception exception) {
             exception.printStackTrace();

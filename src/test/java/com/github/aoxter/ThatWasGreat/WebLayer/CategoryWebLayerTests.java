@@ -1,7 +1,7 @@
 package com.github.aoxter.ThatWasGreat.WebLayer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemoved;
+import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemovedException;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.client.match.MockRestRequestMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -143,7 +142,7 @@ public class CategoryWebLayerTests {
     void categoryCanNotBeRemovedExceptionTest() throws Exception {
         Category category = new Category("Test Category", RatingForm.getDefault());
         Mockito.when(categoryService.getById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(category));
-        Mockito.doThrow(new CategoryCanNotBeRemoved("Default categories can not be removed")).when(categoryService).delete(ArgumentMatchers.eq(1L));
+        Mockito.doThrow(new CategoryCanNotBeRemovedException("Default categories can not be removed")).when(categoryService).delete(ArgumentMatchers.eq(1L));
         mockMvc.perform(MockMvcRequestBuilders.delete("/category/delete/{id}", 1L)).andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
