@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryListSerializer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
@@ -15,10 +16,11 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(updatable = false, nullable = false)
     private Long id;
-    @Column(unique=true, nullable = false)
+    @NotNull
+    @Column(unique=true)
     private String name;
     private String description;
-    @Column(nullable = false)
+    @NotNull
     @Enumerated(EnumType.STRING)
     private RatingForm ratingForm;
     @ElementCollection

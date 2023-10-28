@@ -3,6 +3,7 @@ package com.github.aoxter.ThatWasGreat.Category.Web;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemoved;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,18 +49,18 @@ public class CategoryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Category> createCategory(@RequestBody Category category) {
+    public ResponseEntity<Category> createCategory(@Valid @RequestBody Category category) {
         try {
             Category _category = categoryService.add(category);
             return new ResponseEntity<>(_category, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @RequestBody Category category) {
+    public ResponseEntity<Category> updateCategory(@PathVariable("id") long id, @Valid @RequestBody Category category) {
         try {
             Optional<Category> categoryUpdated = categoryService.update(id, category);
             if (categoryUpdated.isPresent()) {
