@@ -18,6 +18,6 @@ public class CategorySerializer extends StdSerializer<Category> {
 
     @Override
     public void serialize(Category category, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeObject(category.getName() + String.format(" [id:%d]", category.getId()));
+        jsonGenerator.writeObject(category.getName());
     }
 }

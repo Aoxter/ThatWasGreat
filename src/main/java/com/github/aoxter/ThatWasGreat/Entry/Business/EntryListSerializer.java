@@ -21,10 +21,10 @@ public class EntryListSerializer extends StdSerializer<List<Entry>> {
 
     @Override
     public void serialize(List<Entry> entries, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        List<Long> ids = new ArrayList<>();
+        List<String> names = new ArrayList<>();
         for (Entry entry : entries) {
-            ids.add(entry.getId());
+            names.add(entry.getName());
         }
-        jsonGenerator.writeObject(ids);
+        jsonGenerator.writeObject(names);
     }
 }

@@ -6,6 +6,7 @@ import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
 import com.github.aoxter.ThatWasGreat.Category.Web.CategoryController;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
@@ -93,6 +94,14 @@ public class CategoryWebLayerTests {
     }
 
     @Test
+    void categoryCanNotBeRemovedExceptionTest() throws Exception {
+        Category category = new Category("Test Category", RatingForm.getDefault());
+        Mockito.when(categoryService.getById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(category));
+        Mockito.doThrow(new CategoryCanNotBeRemovedException("Default categories can not be removed")).when(categoryService).delete(ArgumentMatchers.eq(1L));
+        mockMvc.perform(MockMvcRequestBuilders.delete("/category/delete/{id}", 1L)).andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
     void createCategoryRequestNameNotGivenValidationTest() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.post("/category/new")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -101,32 +110,9 @@ public class CategoryWebLayerTests {
     }
 
     @Test
-    void getCategoriesSerializationTest() throws Exception {
-        List<Category> categories = Arrays.asList(
-                new Category("Test Category 1", "Lorem ipsum", RatingForm.getDefault(), Arrays.asList("Factor A", "Factor B")),
-                new Category("Test Category 2", "Lorem ipsum", RatingForm.getDefault(), Arrays.asList("Factor I", "Factor II"))
-        );
-        Mockito.when(categoryService.getAll()).thenReturn(categories);
-        mockMvc.perform(MockMvcRequestBuilders.get("/category/all", 1L))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").isEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("Test Category 1"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].description").value("Lorem ipsum"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].ratingForm").value("STARS"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].factors[0]").value("Factor A"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].factors[1]").value("Factor B"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].entries").isEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].id").isEmpty())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name").value("Test Category 2"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].description").value("Lorem ipsum"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].ratingForm").value("STARS"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].factors[0]").value("Factor I"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].factors[1]").value("Factor II"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].entries").isEmpty());
-    }
-
-    @Test
     void getCategorySerializationTest() throws Exception {
         Category category = new Category("Test Category", "Lorem ipsum", RatingForm.getDefault(), Arrays.asList("Factor A", "Factor B"));
+        category.setEntries(Arrays.asList(new Entry("Test Entry 1"), new Entry("Test Entry 2")));
         Mockito.when(categoryService.getById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(category));
         mockMvc.perform(MockMvcRequestBuilders.get("/category/{id}", 1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").isEmpty())
@@ -135,15 +121,34 @@ public class CategoryWebLayerTests {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.ratingForm").value("STARS"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.factors[0]").value("Factor A"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.factors[1]").value("Factor B"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.entries").isEmpty());
+                .andExpect(MockMvcResultMatchers.jsonPath("$.entries[0]").value("Test Entry 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.entries[1]").value("Test Entry 2"));
     }
 
     @Test
-    void categoryCanNotBeRemovedExceptionTest() throws Exception {
-        Category category = new Category("Test Category", RatingForm.getDefault());
-        Mockito.when(categoryService.getById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(category));
-        Mockito.doThrow(new CategoryCanNotBeRemovedException("Default categories can not be removed")).when(categoryService).delete(ArgumentMatchers.eq(1L));
-        mockMvc.perform(MockMvcRequestBuilders.delete("/category/delete/{id}", 1L)).andExpect(MockMvcResultMatchers.status().isBadRequest());
+    void getCategoriesSerializationTest() throws Exception {
+        Category category1 = new Category("Test Category 1", "Lorem ipsum", RatingForm.getDefault(), Arrays.asList("Factor A", "Factor B"));
+        category1.setEntries(Arrays.asList(new Entry("Test Entry 1"), new Entry("Test Entry 2")));
+        Category category2 = new Category("Test Category 2", "Lorem ipsum", RatingForm.getDefault(), Arrays.asList("Factor I", "Factor II"));
+        category2.setEntries(Arrays.asList(new Entry("Test Entry 3")));
+        List<Category> categories = Arrays.asList(category1, category2);
+        Mockito.when(categoryService.getAll()).thenReturn(categories);
+        mockMvc.perform(MockMvcRequestBuilders.get("/category/all", 1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].id").isEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].name").value("Test Category 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].description").value("Lorem ipsum"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].ratingForm").value("STARS"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].factors[0]").value("Factor A"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].factors[1]").value("Factor B"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].entries[0]").value("Test Entry 1"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[0].entries[1]").value("Test Entry 2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].id").isEmpty())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].name").value("Test Category 2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].description").value("Lorem ipsum"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].ratingForm").value("STARS"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].factors[0]").value("Factor I"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].factors[1]").value("Factor II"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.[1].entries[0]").value("Test Entry 3"));
     }
 
     private String asJsonString(final Object obj) {

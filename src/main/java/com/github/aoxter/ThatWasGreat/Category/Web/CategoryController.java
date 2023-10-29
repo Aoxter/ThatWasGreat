@@ -39,7 +39,7 @@ public class CategoryController {
             if (category.isPresent()) {
                 return new ResponseEntity<>(category.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
         catch (Exception e) {
@@ -55,7 +55,7 @@ public class CategoryController {
             return new ResponseEntity<>(_category, HttpStatus.CREATED);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,7 +66,7 @@ public class CategoryController {
             if (categoryUpdated.isPresent()) {
                 return new ResponseEntity<>(categoryUpdated.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
         catch (Exception e){

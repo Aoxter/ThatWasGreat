@@ -4,6 +4,7 @@ import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundExceptio
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryAlreadyExistsException;
 import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,7 +46,7 @@ public class EntryController {
             if (entry.isPresent()) {
                 return new ResponseEntity<>(entry.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
         catch (Exception e) {
@@ -55,7 +56,7 @@ public class EntryController {
     }
 
     @PostMapping("/new")
-    public ResponseEntity<Entry> createEntry(@RequestParam long categoryId, @RequestBody Entry entry) {
+    public ResponseEntity<Entry> createEntry(@RequestParam long categoryId, @Valid @RequestBody Entry entry) {
         try {
             Entry _entry = entryService.add(categoryId, entry);
             return new ResponseEntity<>(_entry, HttpStatus.CREATED);
@@ -73,13 +74,13 @@ public class EntryController {
     }
 
     @PutMapping("/edit/{id}")
-    public ResponseEntity<Entry> updateEntry(@PathVariable("id") long id, @RequestBody Entry entry) {
+    public ResponseEntity<Entry> updateEntry(@PathVariable("id") long id, @Valid @RequestBody Entry entry) {
         try {
             Optional<Entry> entryUpdated = entryService.update(id, entry);
             if (entryUpdated.isPresent()) {
                 return new ResponseEntity<>(entryUpdated.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
         }
         catch (Exception e){

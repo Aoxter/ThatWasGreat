@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategorySerializer;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Map;
 
@@ -14,8 +15,8 @@ public class Entry {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(updatable = false, nullable = false)
     private Long id;
+    @NotNull
     private String name;
-    @Column(nullable = false)
     private String description;
     @ManyToOne(fetch=FetchType.LAZY, optional=false)
     @JsonSerialize(using = CategorySerializer.class)
@@ -33,10 +34,8 @@ public class Entry {
     public Entry() {
     }
 
-    public Entry(Category category, String name, String description) {
+    public Entry(String name) {
         this.name = name;
-        this.description = description;
-        this.category = category;
     }
 
     public Entry(Category category, String name, String description, byte overallRate, Map<String, Byte> rates) {
