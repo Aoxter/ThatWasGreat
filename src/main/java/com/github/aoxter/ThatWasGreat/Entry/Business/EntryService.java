@@ -5,7 +5,6 @@ import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundExceptio
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Data.EntryRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,10 +15,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class EntryService {
-    @Autowired
-    private EntryRepository entryRepository;
-    @Autowired
-    private CategoryService categoryService;
+    private final EntryRepository entryRepository;
+    private final CategoryService categoryService;
+
+    public EntryService(EntryRepository entryRepository, CategoryService categoryService) {
+        this.entryRepository = entryRepository;
+        this.categoryService = categoryService;
+    }
 
     public List<Entry> getAll(){
         return  entryRepository.findAll();
