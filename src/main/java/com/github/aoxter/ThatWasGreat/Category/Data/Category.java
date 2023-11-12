@@ -40,6 +40,12 @@ public class Category {
         this.ratingForm = ratingForm;
     }
 
+    public Category(String name, RatingForm ratingForm, List<String> factors) {
+        this.name = name;
+        this.ratingForm = ratingForm;
+        this.factors = factors;
+    }
+
     public Category(String name, String description, RatingForm ratingForm, List<String> factors) {
         this.name = name;
         this.description = description;

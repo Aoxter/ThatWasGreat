@@ -38,6 +38,11 @@ public class Entry {
         this.name = name;
     }
 
+    public Entry(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+
     public Entry(Category category, String name, String description, byte overallRate, Map<String, Byte> rates) {
         this.name = name;
         this.description = description;
