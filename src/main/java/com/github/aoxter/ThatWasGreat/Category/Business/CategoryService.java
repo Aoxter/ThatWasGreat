@@ -39,8 +39,6 @@ public class CategoryService {
             categoryUpdated.setName(newCategoryData.getName());
             categoryUpdated.setDescription(newCategoryData.getDescription());
             categoryUpdated.setRatingForm(newCategoryData.getRatingForm());
-            //Blocked because of potential problems with Entries synchronization
-            //categoryUpdated.setFactors(newCategoryData.getFactors());
             return Optional.of(categoryRepository.save(categoryUpdated));
         } else {
             return Optional.empty();
@@ -48,7 +46,7 @@ public class CategoryService {
     }
 
     public void delete(Long id) throws CategoryCanNotBeRemovedException {
-        if(id == 1 || id == 2 | id == 3 | id == 4) throw new CategoryCanNotBeRemovedException("Default categories can not be removed");
+        if(id == 1 || id == 2 || id == 3 || id == 4) throw new CategoryCanNotBeRemovedException("Default categories can not be removed");
         categoryRepository.deleteById(id);
     }
 }
