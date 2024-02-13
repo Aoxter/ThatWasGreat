@@ -2,10 +2,13 @@ package com.github.aoxter.ThatWasGreat.Entry.Business;
 
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
+import com.github.aoxter.ThatWasGreat.Category.Business.FactorAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Category.Business.FactorNotFoundException;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Data.EntryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class EntryService {
     private final EntryRepository entryRepository;
     private final CategoryService categoryService;
@@ -66,6 +70,35 @@ public class EntryService {
         } else {
             return Optional.empty();
         }
+    }
+
+    public Entry addFactor(Long id, String factor) {
+        return addFactor(id, factor, (byte) 0);
+    }
+
+    public Entry addFactor(Long id, String factor, byte value) {
+        Optional<Entry> entryToUpdate = entryRepository.findById(id);
+        if (!entryToUpdate.isPresent()) {
+            throw new EntryNotFoundException("");
+        }
+        Entry entryUpdated = entryToUpdate.get();
+        if(entryUpdated.getRates().get(factor) != null) {
+            throw new FactorAlreadyExistsException(String.format("Attempted to add to rates of entry of id %d a factor that has already been added", id));
+        }
+        entryUpdated.getRates().put(factor, value);
+        return entryRepository.save(entryUpdated);
+    }
+
+    public Entry deleteFactor(Long id, String factor) {
+        Optional<Entry> entryToUpdate = entryRepository.findById(id);
+        if (!entryToUpdate.isPresent()) {
+            throw new EntryNotFoundException("");
+        }
+        Entry entryUpdated = entryToUpdate.get();
+        if(entryUpdated.getRates().remove(factor) == null) {
+            throw new FactorNotFoundException(String.format("Attempted to remove from rates of entry of id %d a factor that doesn't exists", id));
+        }
+        return entryRepository.save(entryUpdated);
     }
 
     public void delete(Long id) throws Exception {

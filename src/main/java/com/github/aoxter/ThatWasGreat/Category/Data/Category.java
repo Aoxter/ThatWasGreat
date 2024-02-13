@@ -1,12 +1,15 @@
 package com.github.aoxter.ThatWasGreat.Category.Data;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryListSerializer;
+import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="tbl_category")
@@ -26,7 +29,7 @@ public class Category {
     @ElementCollection
     @CollectionTable(name="tbl_category_factors", joinColumns=@JoinColumn(name="category_id"))
     @Column(name = "factor")
-    private List<String> factors;
+    private Set<String> factors;
     @OneToMany(mappedBy="category", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonSerialize(using = EntryListSerializer.class)
     private List<Entry> entries;
@@ -38,19 +41,23 @@ public class Category {
     public Category(String name, RatingForm ratingForm) {
         this.name = name;
         this.ratingForm = ratingForm;
+        this.factors = new HashSet<>();
+        this.entries = new ArrayList<>();
     }
 
-    public Category(String name, RatingForm ratingForm, List<String> factors) {
+    public Category(String name, RatingForm ratingForm, Set<String> factors) {
         this.name = name;
         this.ratingForm = ratingForm;
         this.factors = factors;
+        this.entries = new ArrayList<>();
     }
 
-    public Category(String name, String description, RatingForm ratingForm, List<String> factors) {
+    public Category(String name, String description, RatingForm ratingForm, Set<String> factors) {
         this.name = name;
         this.description = description;
         this.ratingForm = ratingForm;
         this.factors = factors;
+        this.entries = new ArrayList<>();
     }
 
     public Long getId() {
@@ -81,11 +88,11 @@ public class Category {
         this.ratingForm = ratingForm;
     }
 
-    public List<String> getFactors() {
+    public Set<String> getFactors() {
         return factors;
     }
 
-    public void setFactors(List<String> factors) {
+    public void setFactors(Set<String> factors) {
         this.factors = factors;
     }
 
