@@ -5,7 +5,6 @@ import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.CategoryRepository;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
-import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

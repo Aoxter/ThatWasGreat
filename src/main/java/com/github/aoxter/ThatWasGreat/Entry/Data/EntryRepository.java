@@ -1,6 +1,5 @@
 package com.github.aoxter.ThatWasGreat.Entry.Data;
 
-import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
