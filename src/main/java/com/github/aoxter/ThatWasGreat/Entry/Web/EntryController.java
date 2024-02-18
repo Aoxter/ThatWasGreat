@@ -30,7 +30,7 @@ public class EntryController {
                 entries = entryService.getAll();
             }
             if (entries.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(entries, HttpStatus.OK);
         } catch (Exception e) {
@@ -46,7 +46,7 @@ public class EntryController {
             if (entry.isPresent()) {
                 return new ResponseEntity<>(entry.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         catch (Exception e) {
@@ -80,7 +80,7 @@ public class EntryController {
             if (entryUpdated.isPresent()) {
                 return new ResponseEntity<>(entryUpdated.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         catch (Exception e){
@@ -94,7 +94,7 @@ public class EntryController {
         try {
             Optional<Entry> entry = entryService.getById(id);
             if (!entry.isPresent()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             entryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);

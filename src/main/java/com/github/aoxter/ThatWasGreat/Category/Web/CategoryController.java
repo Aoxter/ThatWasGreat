@@ -22,7 +22,7 @@ public class CategoryController {
         try {
             List<Category> categories = categoryService.getAll();
             if (categories.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             return new ResponseEntity<>(categories, HttpStatus.OK);
         } catch (Exception e) {
@@ -38,7 +38,7 @@ public class CategoryController {
             if (category.isPresent()) {
                 return new ResponseEntity<>(category.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         catch (Exception e) {
@@ -65,7 +65,7 @@ public class CategoryController {
             if (categoryUpdated.isPresent()) {
                 return new ResponseEntity<>(categoryUpdated.get(), HttpStatus.OK);
             } else {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
         catch (Exception e){
@@ -79,7 +79,7 @@ public class CategoryController {
         try {
             Optional<Category> category = categoryService.getById(id);
             if (!category.isPresent()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
             categoryService.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
