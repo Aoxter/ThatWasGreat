@@ -2,6 +2,8 @@ package com.github.aoxter.ThatWasGreat.Category.Web;
 
 import com.github.aoxter.ThatWasGreat.Category.Business.*;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

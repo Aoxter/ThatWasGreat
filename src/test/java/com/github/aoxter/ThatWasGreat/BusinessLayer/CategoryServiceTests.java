@@ -4,7 +4,9 @@ import com.github.aoxter.ThatWasGreat.Category.Business.*;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.CategoryRepository;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
-import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorNotFoundException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,13 +20,13 @@ import java.util.*;
 public class CategoryServiceTests {
     private CategoryService categoryService;
     private CategoryRepository categoryRepository;
-    private EntryService entryService;
+    private FactorService factorService;
 
     @BeforeEach
     void setupService() {
         categoryRepository = Mockito.mock(CategoryRepository.class);
-        entryService = Mockito.mock(EntryService.class);
-        categoryService = new CategoryService(categoryRepository, entryService);
+        factorService = Mockito.mock(FactorService.class);
+        categoryService = new CategoryService(categoryRepository, factorService);
     }
 
     @Test

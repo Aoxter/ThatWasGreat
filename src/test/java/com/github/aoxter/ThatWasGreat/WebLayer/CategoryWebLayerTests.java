@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemovedException;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
-import com.github.aoxter.ThatWasGreat.Category.Business.FactorNotFoundException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorNotFoundException;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
 import com.github.aoxter.ThatWasGreat.Category.Web.CategoryController;

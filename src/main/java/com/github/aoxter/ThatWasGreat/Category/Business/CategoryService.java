@@ -3,6 +3,9 @@ package com.github.aoxter.ThatWasGreat.Category.Business;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.CategoryRepository;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorNotFoundException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,11 +18,11 @@ import java.util.Optional;
 @Transactional
 public class CategoryService {
     private final CategoryRepository categoryRepository;
-    private final EntryService entryService;
+    private final FactorService factorService;
 
-    public CategoryService(CategoryRepository categoryRepository, EntryService entryService) {
+    public CategoryService(CategoryRepository categoryRepository, FactorService factorService) {
         this.categoryRepository = categoryRepository;
-        this.entryService = entryService;
+        this.factorService = factorService;
     }
 
     public List<Category> getAll(){
@@ -63,7 +66,7 @@ public class CategoryService {
                 throw new FactorAlreadyExistsException("This factor already exists in the category of the given ID");
             }
             try {
-                categoryToUpdate.getEntries().forEach(entry -> entryService.addFactor(entry.getId(), factor));
+                categoryToUpdate.getEntries().forEach(entry -> factorService.addFactor(entry.getId(), factor));
             }
             catch (Exception e) {
                 throw e;
@@ -84,7 +87,7 @@ public class CategoryService {
             else {
                 try {
                     categoryToUpdate.getFactors().remove(factor);
-                    categoryToUpdate.getEntries().forEach(entry -> entryService.deleteFactor(entry.getId(), factor));
+                    categoryToUpdate.getEntries().forEach(entry -> factorService.deleteFactor(entry.getId(), factor));
                 }
                 catch(Exception e) {
                     throw e;
@@ -109,8 +112,8 @@ public class CategoryService {
                     categoryToUpdate.getFactors().add(newFactor);
                     categoryToUpdate.getEntries().forEach(entry -> {
                         Byte rating = entry.getRates().get(oldFactor);
-                        entryService.deleteFactor(entry.getId(), oldFactor);
-                        entryService.addFactor(entry.getId(), newFactor, rating);
+                        factorService.deleteFactor(entry.getId(), oldFactor);
+                        factorService.addFactor(entry.getId(), newFactor, rating);
                     });
                 }
                 catch(Exception e) {

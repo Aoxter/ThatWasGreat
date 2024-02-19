@@ -1,15 +1,10 @@
 package com.github.aoxter.ThatWasGreat.BusinessLayer;
 
-//TODO the package of the test class should match the package of the source class whose unit of source code it’ll test
-
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryService;
-import com.github.aoxter.ThatWasGreat.Category.Business.FactorAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.Category.Business.FactorNotFoundException;
 import com.github.aoxter.ThatWasGreat.Category.Data.Category;
 import com.github.aoxter.ThatWasGreat.Category.Data.RatingForm;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.Entry.Business.EntryNotFoundException;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryService;
 import com.github.aoxter.ThatWasGreat.Entry.Data.Entry;
 import com.github.aoxter.ThatWasGreat.Entry.Data.EntryRepository;
@@ -96,67 +91,5 @@ public class EntryServiceTests {
         Entry updatedEntry = entryService.update(1L, newEntry).get();
         Assertions.assertEquals(newEntry.getName(), updatedEntry.getName());
         Assertions.assertEquals(null, updatedEntry.getDescription());
-    }
-
-    @Test
-    void addFactorCorrect() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Mockito.when(entryRepository.save(ArgumentMatchers.any())).then(AdditionalAnswers.returnsFirstArg());
-        Entry updatedEntry = entryService.addFactor(1L, "Factor C");
-        Entry expectedEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, Map.of("Factor A", (byte)2, "Factor B", (byte)4, "Factor C", (byte) 0));
-        Assertions.assertEquals(expectedEntry.getRates(), updatedEntry.getRates());
-    }
-
-    @Test
-    void addFactorFailedBecauseFactorAlreadyExists() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Assertions.assertThrows(FactorAlreadyExistsException.class, () -> {
-            entryService.addFactor(1L, "Factor B");
-        });
-    }
-
-    @Test
-    void addFactorFailedBecauseEntryNotFound() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Assertions.assertThrows(EntryNotFoundException.class, () -> {
-            entryService.addFactor(2L, "Factor C");
-        });
-    }
-
-    @Test
-    void deleteFactorCorrect() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Mockito.when(entryRepository.save(ArgumentMatchers.any())).then(AdditionalAnswers.returnsFirstArg());
-        Entry updatedEntry = entryService.deleteFactor(1L, "Factor A");
-        Entry expectedEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, Map.of("Factor B", (byte)4));
-        Assertions.assertEquals(expectedEntry.getRates(), updatedEntry.getRates());
-    }
-
-    @Test
-    void deleteFactorFailedBecauseFactorNotFound() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Assertions.assertThrows(FactorNotFoundException.class, () -> {
-            entryService.deleteFactor(1L, "Factor C");
-        });
-    }
-
-    @Test
-    void deleteFactorFailedBecauseEntryNotFound() {
-        Category category = new Category("Test Category", RatingForm.getDefault(), new HashSet<>(Arrays.asList("Factor A", "Factor B")));
-        Entry oldEntry = new Entry(category, "Entry", "Lorem ipsum", (byte)3, new HashMap<>(Map.of("Factor A", (byte)2, "Factor B", (byte)4)));
-        Mockito.when(entryRepository.findById(ArgumentMatchers.eq(1L))).thenReturn(Optional.of(oldEntry));
-        Assertions.assertThrows(EntryNotFoundException.class, () -> {
-            entryService.deleteFactor(2L, "Factor A");
-        });
     }
 }

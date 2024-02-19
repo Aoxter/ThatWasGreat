@@ -2,8 +2,8 @@ package com.github.aoxter.ThatWasGreat;
 
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryCanNotBeRemovedException;
 import com.github.aoxter.ThatWasGreat.Category.Business.CategoryNotFoundException;
-import com.github.aoxter.ThatWasGreat.Category.Business.FactorAlreadyExistsException;
-import com.github.aoxter.ThatWasGreat.Category.Business.FactorNotFoundException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorAlreadyExistsException;
+import com.github.aoxter.ThatWasGreat.Factor.Business.FactorNotFoundException;
 import com.github.aoxter.ThatWasGreat.Entry.Business.EntryAlreadyExistsException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
