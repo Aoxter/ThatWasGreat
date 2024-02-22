@@ -12,7 +12,7 @@ import java.util.Map;
 @Table(name="tbl_entry")
 public class Entry {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(updatable = false, nullable = false)
     private Long id;
     @NotNull
