@@ -4,10 +4,7 @@ HELP.md
 
 ### STS ###
 .apt_generated
-.classpath
 .factorypath
-.project
-.settings
 .springBeans
 .sts4-cache
 
@@ -28,7 +25,12 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
 
 !.mvn/wrapper/maven-wrapper.jar
 
@@ -181,23 +183,58 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# System files
+.DS_Store
+
+# Node
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Compiled output
+/out-tsc
+/bazel-out
+
+# Miscellaneous
+/.angular/cache
+.sass-cache/
+/connect.lock
+/coverage
+/libpeerconnection.log
+testem.log
+/typings
+
 ### Some additional ignores (sort later)
-*.DS_Store
 *.sw?
 .#*
 *#
 *~
-.classpath
-.project
-.settings
-bin
-build
-target
-dependency-reduced-pom.xml
 *.sublime-*
 /scratch
 .gradle
 README.html
-*.iml
-.idea
 .exercism
+.c9/
+
+
+### React + Vite
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
