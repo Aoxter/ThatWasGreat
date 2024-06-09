@@ -6,7 +6,7 @@ export default class NavigationBar extends Component {
   render() {
     return (
         <div>
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <a className="navbar-brand" href="/category/all">
                     That Was Great!
                 </a>
