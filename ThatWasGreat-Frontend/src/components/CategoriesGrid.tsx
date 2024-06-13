@@ -1,6 +1,7 @@
-import { useState, useEffect, ChangeEvent } from "react";
+import { useState, useEffect } from "react";
 import ICategoryData from "../types/Category";
 import CategoryService from "../services/CategoryService";
+import CategoryTile from "./CategoryTile";
 
 const CategoriesGrid: React.FC = () => {
     const [categories, setCategories] = useState<Array<ICategoryData>>([]);
@@ -20,10 +21,14 @@ const CategoriesGrid: React.FC = () => {
             });
     };
 
+    const renderTiles = () => {
+      return categories.map(category => {
+        return <CategoryTile category={category}/>;
+      });
+    };
+
     return (
-      <div>
-          return <pre>{JSON.stringify(categories, null, ' ')}</pre>;
-      </div>
+        renderTiles()
     )
   }
 

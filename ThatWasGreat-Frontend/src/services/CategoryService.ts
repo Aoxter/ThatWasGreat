@@ -21,6 +21,9 @@ const remove = (id: any) => {
   return http.delete<any>(`/category/${id}/delete`);
 };
 
+// const findByTitle = (title: string) => {
+//   return http.get<Array<ITutorialData>>(`/tutorials?title=${title}`);
+// };
 
 const CategoryService = {
   getAll,
