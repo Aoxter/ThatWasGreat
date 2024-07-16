@@ -1,8 +1,9 @@
-import ICategoryData from '../types/Category'
+import { Link } from 'react-router-dom';
+import Category from '../types/Category'
 import Card from 'react-bootstrap/Card';
 
 export interface CategoryProps {
-    category: ICategoryData;
+    category: Category;
 }
 
 export default function CategoryTile(props: CategoryProps) {
@@ -10,7 +11,9 @@ export default function CategoryTile(props: CategoryProps) {
     return (
       <div className='categoryTile'>
         <Card>
-          <Card.Header>{category.name}</Card.Header>
+          <Link to= {{pathname: `/category/${category.id}`}}>
+            <Card.Header>{category.name} ({category.id})</Card.Header>
+          </Link>
           <Card.Body>
             <Card.Text>{category.description}</Card.Text>
           </Card.Body>

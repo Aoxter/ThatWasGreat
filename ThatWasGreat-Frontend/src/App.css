@@ -1,7 +1,11 @@
 html, body, #root {
   text-align: center;
   display: flex;
-  width: 100%; 
+  width: 100%;
+}
+
+.navigation {
+
 }
 
 .pageContent {
@@ -30,4 +34,23 @@ html, body, #root {
 
 .categoryGrid:has(.categoryTile:nth-child(3n+1)) {
   justify-content: center; /* Center last row if it has fewer than 3 items */
+}
+
+.categoryContentContainer {
+  border: 1px solid black;
+  width: 100%;
+}
+
+.categoryContent {
+  /* border: 1px solid black;
+  width: 100%; */
+  margin-top: 20px;
+  margin-bottom: 20px;
+  /* flex-grow: 1; */
+}
+
+.categoryContentTextLeft {
+  text-align: left;
+  margin-left: 50px;
+  /* font-weight: bold; */
 }

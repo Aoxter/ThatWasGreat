@@ -1,8 +1,15 @@
 import axios from "axios";
 
-export default axios.create({
-  baseURL: "http://localhost:8080",
-  headers: {
-    "Content-type": "application/json"
-  }
+const httpClient = axios.create({
+    baseURL: "http://localhost:8080",
+    headers: {
+      "Content-type": "application/json"
+    }
 });
+
+httpClient.interceptors.request.use(request => {
+    console.log('Starting Request', JSON.stringify(request, null, 2))
+    return request
+})
+
+export default httpClient;

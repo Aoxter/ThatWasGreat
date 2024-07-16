@@ -5,7 +5,7 @@ import { FaSignInAlt, FaRegUserCircle  } from "react-icons/fa";
 export default class NavigationBar extends Component {
   render() {
     return (
-        <div>
+        <div className='navigation'>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
                 <a className="navbar-brand" href="/category/all">
                     That Was Great!
